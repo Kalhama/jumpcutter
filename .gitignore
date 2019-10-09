@@ -3,3 +3,4 @@ dist/
 quiet.txt
 video.mp4
 silence.js
+ffmpeg
