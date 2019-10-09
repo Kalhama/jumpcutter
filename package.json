@@ -1,0 +1,27 @@
+{
+  "name": "jumpcutter",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "wtfpl",
+  "preferGlobal": true,
+  "bin": "./dist/index.js",
+  "scripts": {
+    "start": "ts-node-dev --respawn --ignore-watch node_modules lib/index.ts",
+    "build": "tsc",
+    "prepublish": "yarn build"
+  },
+  "dependencies": {
+    "@types/fs-extra": "8.0.0",
+    "commander": "2.19.0",
+    "fs-extra": "8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "10.12.2",
+    "typescript": "3.1.6"
+  },
+  "author": "Max Kalhama <max@kalhama.fi>",
+  "repository": "",
+  "files": [
+    "dist"
+  ]
+}
