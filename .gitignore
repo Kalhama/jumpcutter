@@ -1,6 +1,3 @@
 node_modules/
 dist/
-quiet.txt
-video.mp4
-silence.js
-ffmpeg
+media/
