@@ -9,16 +9,18 @@ export class Parser {
   private curr: number = 0
   private silence: any[] = []
   private speed: number = 0
+  private copy: boolean = false
 
   // callbacks
   private progress?: Function | null
   private done?: Function | null
 
-  constructor(input: string, output: string, progress?: Function | null, done?: Function | null) {
+  constructor(input: string, output: string, copy: boolean, progress?: Function | null, done?: Function | null) {
     this.progress = progress
     this.done = done
     this.input = input
     this.output = output
+    this.copy = copy
   }
 
   private stderr = (str: string) => {
@@ -62,6 +64,7 @@ export class Parser {
 
     // TODO add total time took processing and speed
     if (this.done) {
+      (!this.copy) ? await spawn('rm', [this.input]) : null
       this.done(str, this.silence, this.length, this.silenceSum())
     }
   }

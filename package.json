@@ -2,9 +2,9 @@
   "name": "jumpcutter",
   "version": "0.0.1",
   "main": "app.js",
-  "license": "wtfpl",
+  "license": "WTFPL",
   "preferGlobal": true,
-  "bin": "./dist/app.js",
+  "bin": "./dist/cmd.js",
   "scripts": {
     "start": "ts-node-dev --respawn --ignore-watch node_modules lib/app.ts",
     "start-cmd": "ts-node-dev --respawn --ignore-watch node_modules lib/cmd.ts -i ~/Movies/Oikkonen streams/20190926.mp4 -o out.mp4",

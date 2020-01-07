@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as commander from 'commander'
 import * as cliProgress from 'cli-progress'
 import { Parser } from './Parser'
@@ -9,10 +11,11 @@ program.version('0.0.1')
 program
     .option('-i, --input <input>', 'input file or url')
     .option('-o, --output <output>', 'output file')
+    .option('-c, --copy', "Copy video file into app cache instead of move")
     .parse(process.argv)
 
 if (!program.input) throw new Error("Input is mandatory")
-if (!program.output) throw new Error("Output is mandatory")
+if (!program.output) program.output = program.input.split('/').pop()
 
 const bar = new cliProgress.Bar({
     format: '{output} [{bar}] {value}% | Speed: {speed}x',
@@ -31,9 +34,7 @@ const done = (exitCode: any, silence: any) => {
 }
 
 const progress = (length: any, current: any, silenceDelta: any, silenceSum: any, speed: any) => {
-    const percentage = (a: number, b: number): string => `${Math.round(a / b * 10000)/100}%`
-
     bar.update(Math.round(current / length * 10000)/100, {speed: speed.toString()})
 }
 
-new Parser(program.input, program.output, progress, done).parse()
+new Parser(program.input, program.output, program.copy, progress, done).parse()
