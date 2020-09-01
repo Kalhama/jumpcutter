@@ -40,7 +40,7 @@ export class Parser {
     }
 
     private exit = async (_data: Buffer) => {
-        process.stdout.write(JSON.stringify(this.silence))
+        process.stdout.write(JSON.stringify(this.silence, null, 2))
         process.exit(0)
     }
 
