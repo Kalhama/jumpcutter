@@ -1,9 +1,8 @@
-import { spawn, exec } from 'child_process'
-import * as fs from 'fs-extra' // should I use multer?
-import { strict } from 'assert'
+import { spawn } from 'child_process'
 
 export class Parser {
     private input: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private silence: any[] = []
 
     constructor(input: string) {
