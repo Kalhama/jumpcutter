@@ -34,7 +34,7 @@
     "typescript": "4.4.4"
   },
   "author": "Max Kalhama <max@kalhama.fi>",
-  "repository": "",
+  "repository": "https://github.com/Kalhama/jumpcutter/blob/master/LICENSE",
   "files": [
     "dist"
   ]
