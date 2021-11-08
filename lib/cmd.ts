@@ -2,13 +2,71 @@
 
 import * as commander from 'commander'
 import { Parser } from './Parser'
+import * as pathToFfmpeg from 'ffmpeg-static'
+import * as cliProgress from 'cli-progress'
+import * as ffprobeStatic from 'ffprobe-static'
 
-const program = new commander.Command()
+const main = async () => {
+    if (!process.env.FFMPEG_PATH) {
+        process.env.FFMPEG_PATH = pathToFfmpeg
+    }
+    if (!process.env.FFPROBE_PATH) {
+        process.env.FFPROBE_PATH = ffprobeStatic.path
+    }
 
-program.version('0.0.1')
+    const program = new commander.Command()
 
-program.option('-i, --input <input>', 'input file or url').parse(process.argv)
+    program.version('0.0.1')
+    const parser = new Parser()
 
-if (!program.input) throw new Error('Input is mandatory')
 
-new Parser(program.input).parse()
+    // program
+    //     .command('silent-segments')
+    //     .requiredOption('-i, --input <input>', 'input file')
+    //     .action(async (input: string) => {
+    //         const quietSegments = await parser.quietSegments(input)
+    //         process.stdout.write(JSON.stringify(quietSegments, null, 2))
+    //     })
+
+    // program
+    //     .command('audio-segments')
+    //     .requiredOption('-i, --input <input>', 'input file')
+    //     .action(async ({ input }) => {
+    //         const audioSegments = await parser.audioSegments(input)
+    //         const text = audioSegments.flatMap(segment => [`file '${input}'`, `inpoint ${segment.start}`, `outpoint ${segment.end}`]).join('\n')
+    //         ffmpeg -safe 0 -f concat -segment_time_metadata 1 -i text.txt -vf select=concatdec_select -af aselect=concatdec_select,aresample=async=1 video_jumpcut.mp4
+    //         writeFileSync('text.txt', text)
+    //         process.stdout.write(JSON.stringify(text, null, 2))
+    //     })
+    
+    program
+        .command('jumpcut')
+        .requiredOption('-i, --input <input>', 'input file')
+        .requiredOption('-o, --output <output>', 'output file')
+        .action(async ({ input, output }) => {                      
+            const audioSegments = await parser.audioSegments(input)
+
+            const bar = new cliProgress.Bar(
+                {
+                    format: '[{bar}] {percentage}% | ETA: {eta}s',
+                    stopOnComplete: true
+                }, 
+                cliProgress.Presets.shades_classic
+            );
+            bar.start(100, 0);
+            
+            await parser.concatSegments(
+                input, 
+                audioSegments, 
+                output, 
+                (progress) => {   
+                    bar.update(progress * 100);
+                }
+            )
+            bar.stop();
+        })
+        
+    await program.parseAsync(process.argv);
+}
+
+main()
