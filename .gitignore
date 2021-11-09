@@ -2,3 +2,4 @@ node_modules/
 dist/
 .jumpcutter.temp
 yarn-error.log
+debug_media/
