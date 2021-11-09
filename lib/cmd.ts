@@ -41,9 +41,10 @@ const main = async () => {
     //     })
     program
         .command('analyse')
+        .option('-s, --sensitivity <sensitivity>', 'dBA sensitivity', '30')
         .requiredOption('-i, --input <input>', 'input file')
-        .action(async ({ input }) => {           
-            const audioSegments = await parser.audioSegments(input)
+        .action(async ({ input, sensitivity }) => {                       
+            const audioSegments = await parser.audioSegments(input, sensitivity)
             const length = audioSegments[audioSegments.length - 1].end
             const audioLenght = audioSegments.map(el => el.end - el.start).reduce((a, b) => a + b)
             const silentLength = length - audioLenght
@@ -53,10 +54,11 @@ const main = async () => {
 
     program
         .command('jumpcut')
+        .option('-s, --sensitivity <sensitivity>', 'dBA sensitivity', '30')
         .requiredOption('-i, --input <input>', 'input file')
         .requiredOption('-o, --output <output>', 'output file')
-        .action(async ({ input, output }) => {                      
-            const audioSegments = await parser.audioSegments(input)
+        .action(async ({ input, output, sensitivity }) => {                      
+            const audioSegments = await parser.audioSegments(input, sensitivity)
 
             const bar = new cliProgress.Bar(
                 {

@@ -11,8 +11,8 @@ export class Parser {
     /**
      *  Inverse of silentSegments
      */
-    public async audioSegments(input: string) {
-        const silentSegments = await this.quietSegments(input)
+    public async audioSegments(input: string, sensitivity: string) {
+        const silentSegments = await this.quietSegments(input, sensitivity)
         const silentArray = silentSegments.flatMap(segment => [segment.start, segment.end])
         const audioArray = [...silentArray]
 
@@ -43,13 +43,13 @@ export class Parser {
         return audioSegments
     }
 
-    public async quietSegments(input: string) {
+    public async quietSegments(input: string, sensitivity: string) {        
         const ffmpeg = spawn(process.env.FFMPEG_PATH as string, [
             '-i',
             input,
             '-vn',
             '-af',
-            'silencedetect=noise=-32dB:d=0.5',
+            `silencedetect=noise=-${sensitivity}dB:d=0.5`,
             '-f',
             'null',
             '-'
