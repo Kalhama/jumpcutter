@@ -1,6 +1,6 @@
 {
   "name": "jumpcutter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./dist/cmd.js",
   "license": "GPL-3.0-only",
   "preferGlobal": true,
