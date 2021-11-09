@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "ts-node-dev --respawn --ignore-watch node_modules lib/cmd.ts",
-    "build": "tsc"
+    "build": "rm -r dist/ && tsc",
+    "prepublishOnly": "rm -r dist/ && tsc"
   },
   "dependencies": {
     "cli-progress": "^3.9.1",
@@ -34,7 +35,7 @@
     "typescript": "4.4.4"
   },
   "author": "Max Kalhama <max@kalhama.fi>",
-  "repository": "https://github.com/Kalhama/jumpcutter/blob/master/LICENSE",
+  "repository": "https://github.com/Kalhama/jumpcutter",
   "files": [
     "dist"
   ]
