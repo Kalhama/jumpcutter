@@ -10,7 +10,8 @@
   "scripts": {
     "start": "ts-node-dev --respawn --ignore-watch node_modules lib/cmd.ts",
     "build": "rm -r dist/ && tsc",
-    "prepublishOnly": "rm -r dist/ && tsc"
+    "prepublishOnly": "rm -r dist/ && tsc",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "cli-progress": "^3.9.1",
