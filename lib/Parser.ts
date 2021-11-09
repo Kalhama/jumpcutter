@@ -136,13 +136,10 @@ export class Parser {
         const oldLength = await this.getAudioLength(input)
         const savedTime = oldLength - newLength
 
-        return new Promise<void>(resolve => {
-            ffmpeg.on('exit', () => {
-                const formatNumber = (num: number): string => {
+        return new Promise<void>(resolve => {                const formatNumber = (num: number): string => {
                     return String(Math.round(num * 100) / 100)
                 }
-
-                console.log(`Total saved time: ${formatNumber(savedTime / 60)}min (${formatNumber(savedTime / oldLength * 100)}%)`)
+            ffmpeg.on('exit', () => {
                 resolve()
             })
         })

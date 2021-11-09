@@ -5,6 +5,7 @@ import { Parser } from './Parser'
 import * as pathToFfmpeg from 'ffmpeg-static'
 import * as cliProgress from 'cli-progress'
 import * as ffprobeStatic from 'ffprobe-static'
+import { formatNumber } from './formatNumber'
 
 const main = async () => {
     if (!process.env.FFMPEG_PATH) {
@@ -38,7 +39,18 @@ const main = async () => {
     //         writeFileSync('text.txt', text)
     //         process.stdout.write(JSON.stringify(text, null, 2))
     //     })
-    
+    program
+        .command('analyse')
+        .requiredOption('-i, --input <input>', 'input file')
+        .action(async ({ input }) => {           
+            const audioSegments = await parser.audioSegments(input)
+            const length = audioSegments[audioSegments.length - 1].end
+            const audioLenght = audioSegments.map(el => el.end - el.start).reduce((a, b) => a + b)
+            const silentLength = length - audioLenght
+            console.log(`Total length ${formatNumber(length / 60)}min. From which ${formatNumber(audioLenght / 60)}min (${formatNumber(silentLength / 60)}min) is audio (silent). Total ${formatNumber(audioLenght / length * 100)}% (${formatNumber(silentLength / length * 100)}%) is audio (silent)`)
+        })
+
+
     program
         .command('jumpcut')
         .requiredOption('-i, --input <input>', 'input file')
