@@ -1,9 +1,7 @@
 # Jumpcutter #
 Package finds quiet spots of video and removes them. Useful for video editing, lectures eg...
 
-## Credits ##
-Inspired by 
-
+## Inspired by ##
 [Github - carykh/jumpcutter](https://github.com/carykh/jumpcutter). (My package is much more efficient and disk space friendly)
 
 [carykh Youtube - Automatic on-the-fly video editing tool!](https://www.youtube.com/watch?v=DQ8orIurGxw)
